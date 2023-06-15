@@ -1,6 +1,5 @@
 package com.task.football.fixtures.ui.screens
 
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -32,9 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.task.football.fixtures.data.models.MatchesItem
 import com.task.football.fixtures.presentation.TeamViewModel
-import com.task.football.utils.formatDate
 import com.task.football.utils.formatDateToCompare
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -45,9 +42,9 @@ fun TeamsScreen(viewModel: TeamViewModel) {
         color = MaterialTheme.colorScheme.background
     ) {
         var visible by remember { mutableStateOf(true) }
-        var visibleToggle by remember { mutableStateOf(false) }
+        var visibleToggle by remember { mutableStateOf(true) }
         LaunchedEffect(Unit, block = {
-            viewModel.getFixturesList()
+            viewModel.loadItems()
         })
         var switchOn by remember {
             mutableStateOf(false)
@@ -100,8 +97,8 @@ fun TeamsScreen(viewModel: TeamViewModel) {
                     items(items = matchesItems) { item ->
                         visible = false
                         TeamsItem(item) {
-                            viewModel.favClicked(item)
-                            visibleToggle = viewModel.favList.isNotEmpty()
+                            viewModel.favClicked(item,!item.isFavorite)
+                            visibleToggle = true
                         }
                         Spacer(modifier = Modifier.height(10.dp))
                     }
@@ -114,5 +111,3 @@ fun TeamsScreen(viewModel: TeamViewModel) {
 
     }
 }
-
-var arr = mutableListOf<MatchesItem>()

@@ -13,7 +13,8 @@ data class MatchesItem(val area: Area,
                        val homeTeam: HomeTeam,
                        val id: Int = 0,
                        val status: String = "",
+                       var isFavorite:Boolean = false,
                        val group: Any? = null){
 
-    var isFavorite = false
+
 }

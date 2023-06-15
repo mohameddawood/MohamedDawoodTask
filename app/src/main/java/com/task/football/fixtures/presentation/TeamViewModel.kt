@@ -1,6 +1,7 @@
 package com.task.football.fixtures.presentation
 
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,10 +11,8 @@ import com.task.football.fixtures.domain.TeamUsecase
 import com.task.football.fixtures.domain.db.DataStoreManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import java.util.stream.Collectors
 import javax.inject.Inject
 
 
@@ -26,51 +25,48 @@ class TeamViewModel @Inject constructor(
     val fixtures: List<MatchesItem>
         get() = _fixtures
     private val tempList = mutableStateListOf<MatchesItem>()
-    private val filterList = mutableStateListOf<MatchesItem>()
     var favList = mutableStateListOf<MatchesItem>()
+    var showToggle = mutableStateOf<Boolean>(false)
     var hashSet = hashSetOf<MatchesItem>()
 
-    init {
-        getAllFavs()
-    }
 
     fun filter(switchOn: Boolean) {
         if (switchOn) {
-            filterList.clear()
             _fixtures.clear()
-            _fixtures.addAll(favList)
+            val nList = tempList.filter { it.isFavorite }.distinct()
+            _fixtures.addAll(nList.ifEmpty { listOf() })
         } else {
             _fixtures.clear()
-            _fixtures.addAll(tempList)
+            _fixtures.addAll(tempList.distinct())
         }
     }
 
     fun getFixturesList() {
-        viewModelScope.launch {
-            usecase.loadFixtures().collect {
-                val items = it.matches?.sortedBy { it.utcDate }
-                _fixtures.clear()
-                favList.forEach { it.isFavorite = true }
-                hashSet.addAll(favList)
-                hashSet.addAll(items ?: listOf())
-                _fixtures.addAll(hashSet.toList().sortedBy { it.utcDate })
-                tempList.addAll(hashSet.toList().sortedBy { it.utcDate })
-            }.runCatching {
-                this.toString()
+        if (_fixtures.isEmpty())
+            viewModelScope.launch {
+                usecase.loadFixtures().collect {
+                    val items = it.matches?.sortedBy { it.utcDate }
+                    items?.forEach {
+                        db.saveMatches(it)
+                    }
+                    _fixtures.addAll(items?: listOf())
+                }.runCatching {
+                    this.toString()
+                }
             }
-        }
     }
 
-    fun getAllFavs() {
+    fun loadItems() {
         viewModelScope.launch {
             db.getFavs().collect {
-                it.asMap().map {
-                    val obj = Gson().fromJson(it.value.toString(), MatchesItem::class.java)
-                    if (favList.find { i -> i.id == obj.id } == null)
-                        favList.add(
-                            obj
-                        )
-                }
+                if (it.asMap().isNotEmpty()){
+                    it.asMap().map {
+                        val obj = Gson().fromJson(it.value.toString(), MatchesItem::class.java)
+                        if (_fixtures.find { i -> i.id == obj.id } == null)
+                            _fixtures.add(obj)
+                    }
+                    tempList.addAll(_fixtures)
+                }else getFixturesList()
             }
         }
     }
@@ -87,17 +83,23 @@ class TeamViewModel @Inject constructor(
         }
     }
 
-    fun favClicked(item: MatchesItem) {
+    fun favClicked(item: MatchesItem, found: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
-            val found = db.isKeyStored(stringPreferencesKey(item.id.toString())).first()
-            if (found) {
-                removeFromFave(item)
-                favList.remove(item)
+
+            if (!found) {
+                val c = item.copy(isFavorite = false)
+                removeFromFave(c)
+                _fixtures.find { it.id == item.id }?.isFavorite = false
             } else {
-                saveToFave(item)
-                favList.add(item)
+                val c = item.copy(isFavorite = true)
+                saveToFave(c)
                 _fixtures.find { it.id == item.id }?.isFavorite = true
             }
+            showToggle.value = !favList.isEmpty()
+            /* if (favList.isEmpty()) {
+                 tempList.forEach { it.isFavorite = false }
+                 _fixtures.addAll(tempList)
+             }*/
         }
     }
 }

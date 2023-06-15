@@ -25,6 +25,11 @@ class DataStoreManager @Inject constructor(@ApplicationContext val appContext: C
     private val dataStore = appContext.dataStore
 
 
+    suspend fun saveMatches(matchesItem: MatchesItem) {
+        dataStore.edit { preferences ->
+            preferences[stringPreferencesKey("${matchesItem.id}")] = Gson().toJson(matchesItem)
+        }
+    }
     suspend fun saveMatchToFavorites(matchesItem: MatchesItem) {
         dataStore.edit { preferences ->
             preferences[stringPreferencesKey("${matchesItem.id}")] = Gson().toJson(matchesItem)
@@ -33,7 +38,7 @@ class DataStoreManager @Inject constructor(@ApplicationContext val appContext: C
 
     suspend fun removeMatchToFavorites(matchesItem: MatchesItem) {
         dataStore.edit { preferences ->
-            preferences.remove(stringPreferencesKey("${matchesItem.id}"))
+            preferences[stringPreferencesKey("${matchesItem.id}")] = Gson().toJson(matchesItem)
         }
     }
 
