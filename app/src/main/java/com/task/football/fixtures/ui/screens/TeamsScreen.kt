@@ -66,7 +66,7 @@ fun TeamsScreen(viewModel: TeamViewModel) {
                             checked = switchOn,
                             onCheckedChange = { switchOn_ ->
                                 switchOn = switchOn_
-                                viewModel.filter(arr, switchOn)
+                                viewModel.filter(switchOn)
                             }
                         )
                         Spacer(modifier = Modifier.width(20.dp))
@@ -84,6 +84,7 @@ fun TeamsScreen(viewModel: TeamViewModel) {
                             Text(
                                 date,
                                 style = MaterialTheme.typography.titleLarge,
+                                color= Color(0xff0d3b66),
                                 fontWeight = FontWeight.Bold,
                                 modifier = Modifier
                                     .padding(
@@ -99,15 +100,8 @@ fun TeamsScreen(viewModel: TeamViewModel) {
                     items(items = matchesItems) { item ->
                         visible = false
                         TeamsItem(item) {
-                            val found = arr.find {
-                                item.id == it.id
-                            }
-                            if (found != null) {
-                                arr.remove(found)
-                            } else {
-                                arr.add(item)
-                            }
-                            visibleToggle = arr.isNotEmpty()
+                            viewModel.favClicked(item)
+                            visibleToggle = viewModel.favList.isNotEmpty()
                         }
                         Spacer(modifier = Modifier.height(10.dp))
                     }

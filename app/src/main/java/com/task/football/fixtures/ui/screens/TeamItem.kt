@@ -127,7 +127,7 @@ fun TeamsItem(teamItem: MatchesItem? = null,onFavClicked:()->Unit) {
                     end.linkTo(parent.end)
                     top.linkTo(parent.top)
                 }){
-                    FavoriteButton(){
+                    FavoriteButton(isFavorite = it.isFavorite){
                         onFavClicked()
                     }
                 }
@@ -141,10 +141,11 @@ fun TeamsItem(teamItem: MatchesItem? = null,onFavClicked:()->Unit) {
 fun FavoriteButton(
     modifier: Modifier = Modifier,
     color: Color = Color(0xffE91E63),
+    isFavorite:Boolean,
     onFavClicked: () -> Unit
 ) {
 
-    var isFavorite by remember { mutableStateOf(false) }
+    var isFavorite by remember { mutableStateOf(isFavorite) }
 
     IconToggleButton(
         checked = isFavorite,

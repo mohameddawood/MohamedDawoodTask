@@ -12,7 +12,6 @@ data class MatchesItem(val area: Area,
                        val season: Season,
                        val homeTeam: HomeTeam,
                        val id: Int = 0,
-                       val referees: List<RefereesItem>?,
                        val status: String = "",
                        val group: Any? = null){
 
