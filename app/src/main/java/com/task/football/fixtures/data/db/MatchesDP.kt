@@ -30,24 +30,6 @@ class DataStoreManager @Inject constructor(@ApplicationContext val appContext: C
             preferences[stringPreferencesKey("${matchesItem.id}")] = Gson().toJson(matchesItem)
         }
     }
-    suspend fun saveMatchToFavorites(matchesItem: MatchesItem) {
-        dataStore.edit { preferences ->
-            preferences[stringPreferencesKey("${matchesItem.id}")] = Gson().toJson(matchesItem)
-        }
-    }
-
-    suspend fun removeMatchToFavorites(matchesItem: MatchesItem) {
-        dataStore.edit { preferences ->
-            preferences[stringPreferencesKey("${matchesItem.id}")] = Gson().toJson(matchesItem)
-        }
-    }
-
-    fun isKeyStored(key: Preferences.Key<String>): Flow<Boolean>  =
-        dataStore.data.map {
-                preference -> preference.contains(key)
-        }.catch {
-
-        }
 
     fun getFavs() = dataStore.data
 }

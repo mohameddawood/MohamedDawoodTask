@@ -45,9 +45,7 @@ import java.text.SimpleDateFormat
 @Composable
 @Preview
 fun Show() {
-    TeamsItem(){
-
-    }
+    TeamsItem(){}
 }
 
 @Composable
@@ -84,7 +82,7 @@ fun TeamsItem(teamItem: MatchesItem? = null,onFavClicked:()->Unit) {
 
 
                 Text(
-                    text = "${teamItem.score.fullTime.home}:${teamItem.score.fullTime.away}",
+                    text = "${teamItem.score?.fullTime?.home?:0}:${teamItem.score?.fullTime?.away?:0}",
                     fontWeight= FontWeight.Bold,
                     fontSize= 20.sp,
                     color= Color.Green,
@@ -135,38 +133,4 @@ fun TeamsItem(teamItem: MatchesItem? = null,onFavClicked:()->Unit) {
             }
         }
     }
-}
-
-@Composable
-fun FavoriteButton(
-    modifier: Modifier = Modifier,
-    color: Color = Color(0xffE91E63),
-    isFavorite:Boolean,
-    onFavClicked: () -> Unit
-) {
-
-    var isFavorite by remember { mutableStateOf(isFavorite) }
-
-    IconToggleButton(
-        checked = isFavorite,
-        onCheckedChange = {
-            isFavorite = !isFavorite
-            onFavClicked()
-        },
-    ) {
-        Icon(
-            tint = color,
-            modifier = modifier.graphicsLayer {
-                scaleX = 1.1f
-                scaleY = 1.1f
-            },
-            imageVector = if (isFavorite) {
-                Icons.Filled.Favorite
-            } else {
-                Icons.Default.FavoriteBorder
-            },
-            contentDescription = null
-        )
-    }
-
 }

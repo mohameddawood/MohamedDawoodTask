@@ -26,8 +26,9 @@ class TeamsRepo @Inject constructor(
                     if (arr.find { i -> i.id == obj.id } == null)
                         arr.add(obj)
                 }
-                emit(arr)
-            }else emit(arrayListOf<MatchesItem>())
+                emit(TeamUsecase.DataType.DBData(arr))
+            }else emit(TeamUsecase.DataType.NetworkData(listOf()))
         }
     }
+
 }

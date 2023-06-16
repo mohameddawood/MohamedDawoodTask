@@ -1,7 +1,13 @@
 package com.task.football.fixtures.data.models
 
-data class Season(val winner: Winner,
+import kotlin.random.Random
+
+data class Season(val winner: Winner=Winner(),
                   val currentMatchday: Int = 0,
                   val endDate: String = "",
                   val id: Int = 0,
-                  val startDate: String = "")
+                  val startDate: String = ""){
+    override fun hashCode(): Int {
+        return Random(3500).nextInt()
+    }
+}

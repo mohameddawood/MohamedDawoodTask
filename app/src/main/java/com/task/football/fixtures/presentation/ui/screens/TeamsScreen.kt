@@ -29,14 +29,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.task.football.fixtures.presentation.TeamViewModel
 import com.task.football.utils.formatDateToCompare
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun TeamsScreen(viewModel: TeamViewModel) {
+
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -51,6 +54,7 @@ fun TeamsScreen(viewModel: TeamViewModel) {
         }
         val grouped = viewModel.fixtures.groupBy { it.utcDate.formatDateToCompare() }
 
+        ShowEmptyScreen(viewModel)
         Column {
 
             Row(horizontalArrangement = Arrangement.Center) {
@@ -76,12 +80,16 @@ fun TeamsScreen(viewModel: TeamViewModel) {
             LazyColumn(modifier = Modifier.fillMaxHeight()) {
                 grouped.forEach { (date, matchesItems) ->
                     stickyHeader {
-                        Box(modifier = Modifier.background(Color.Cyan).padding(8.dp)){
+                        Box(
+                            modifier = Modifier
+                                .background(Color.Cyan)
+                                .padding(8.dp)
+                        ) {
 
                             Text(
                                 date,
                                 style = MaterialTheme.typography.titleLarge,
-                                color= Color(0xff0d3b66),
+                                color = Color(0xff0d3b66),
                                 fontWeight = FontWeight.Bold,
                                 modifier = Modifier
                                     .padding(
@@ -97,7 +105,7 @@ fun TeamsScreen(viewModel: TeamViewModel) {
                     items(items = matchesItems) { item ->
                         visible = false
                         TeamsItem(item) {
-                            viewModel.favClicked(item,!item.isFavorite)
+                            viewModel.favClicked(item, !item.isFavorite)
                             visibleToggle = true
                         }
                         Spacer(modifier = Modifier.height(10.dp))
@@ -109,5 +117,19 @@ fun TeamsScreen(viewModel: TeamViewModel) {
             CircularIndeterminateProgressBar(visible)
         }
 
+    }
+}
+
+@Composable
+fun ShowEmptyScreen(viewModel: TeamViewModel) {
+    AnimatedVisibility(visible = viewModel.getEmptyState().value) {
+        Box(
+            contentAlignment = Alignment.Center, modifier = Modifier
+                .fillMaxHeight()
+                .fillMaxWidth()
+                .background(Color.White)
+        ) {
+            Text(text = "No favorites", color = Color.Magenta, fontSize = 20.sp,)
+        }
     }
 }
