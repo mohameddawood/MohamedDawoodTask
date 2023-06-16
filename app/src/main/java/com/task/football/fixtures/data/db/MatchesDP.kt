@@ -1,4 +1,4 @@
-package com.task.football.fixtures.domain.db
+package com.task.football.fixtures.data.db
 
 import android.content.Context
 import androidx.datastore.preferences.core.Preferences

@@ -1,4 +1,4 @@
-package com.task.football.fixtures.ui.theme
+package com.task.football.fixtures.presentation.ui.theme
 
 import android.app.Activity
 import android.os.Build

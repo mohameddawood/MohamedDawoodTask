@@ -1,4 +1,4 @@
-package com.task.football.fixtures.ui.screens
+package com.task.football.fixtures.presentation.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

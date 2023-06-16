@@ -1,4 +1,4 @@
-package com.task.football.fixtures.ui.theme
+package com.task.football.fixtures.presentation.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

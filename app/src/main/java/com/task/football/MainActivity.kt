@@ -7,8 +7,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import com.task.football.fixtures.presentation.TeamViewModel
-import com.task.football.fixtures.ui.screens.TeamsScreen
-import com.task.football.fixtures.ui.theme.MohamedDawoodTaskTheme
+import com.task.football.fixtures.presentation.ui.screens.TeamsScreen
+import com.task.football.fixtures.presentation.ui.theme.MohamedDawoodTaskTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
