@@ -4,10 +4,13 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -36,6 +39,8 @@ import androidx.constraintlayout.compose.Dimension
 import coil.compose.AsyncImage
 import coil.decode.SvgDecoder
 import coil.request.ImageRequest
+import com.task.football.fixtures.data.models.AwayTeam
+import com.task.football.fixtures.data.models.HomeTeam
 import com.task.football.fixtures.data.models.MatchesItem
 import com.task.football.utils.formatDate
 import com.task.football.utils.getImageUrl
@@ -43,13 +48,7 @@ import java.text.SimpleDateFormat
 
 
 @Composable
-@Preview
-fun Show() {
-    TeamsItem(){}
-}
-
-@Composable
-fun TeamsItem(teamItem: MatchesItem? = null,onFavClicked:()->Unit) {
+fun TeamsItem(teamItem: MatchesItem? = null, onFavClicked: () -> Unit) {
     Card(
         shape = RoundedCornerShape(8.dp),
         modifier = Modifier
@@ -64,7 +63,7 @@ fun TeamsItem(teamItem: MatchesItem? = null,onFavClicked:()->Unit) {
                     .fillMaxHeight()
                     .background(Color.White)
             ) {
-                val (homeTeamLogo, homeTeamTxt,scoreTxt,matchStatusTxt,timeTxt, awayTeamLogo, awayTeamTxt,favIcon) = createRefs()
+                val (homeTeamLogo, homeTeamTxt, scoreTxt, matchStatusTxt, timeTxt, awayTeamLogo, awayTeamTxt, favIcon) = createRefs()
                 AsyncImage(model = getImageUrl(it.homeTeam.crest),
                     contentDescription = "",
                     modifier = Modifier.constrainAs(homeTeamLogo) {
@@ -82,10 +81,10 @@ fun TeamsItem(teamItem: MatchesItem? = null,onFavClicked:()->Unit) {
 
 
                 Text(
-                    text = "${teamItem.score?.fullTime?.home?:0}:${teamItem.score?.fullTime?.away?:0}",
-                    fontWeight= FontWeight.Bold,
-                    fontSize= 20.sp,
-                    color= Color.Green,
+                    text = "${teamItem.score?.fullTime?.home ?: 0}:${teamItem.score?.fullTime?.away ?: 0}",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp,
+                    color = Color.Green,
                     modifier = Modifier.constrainAs(scoreTxt) {
                         start.linkTo(homeTeamLogo.end, margin = 20.dp)
                         end.linkTo(awayTeamLogo.start, margin = 20.dp)
@@ -121,15 +120,42 @@ fun TeamsItem(teamItem: MatchesItem? = null,onFavClicked:()->Unit) {
                         bottom.linkTo(parent.bottom, margin = 10.dp)
                     })
 
-                Box(modifier = Modifier.padding(0.dp).constrainAs(favIcon) {
-                    end.linkTo(parent.end)
-                    top.linkTo(parent.top)
-                }){
-                    FavoriteButton(isFavorite = it.isFavorite){
+                Box(modifier = Modifier
+                    .padding(0.dp)
+                    .constrainAs(favIcon) {
+                        end.linkTo(parent.end)
+                        top.linkTo(parent.top)
+                    }) {
+                    FavoriteButton(isFavorite = it.isFavorite) {
                         onFavClicked()
                     }
                 }
 
+            }
+        }
+    }
+}
+
+@Composable
+@Preview
+fun Show() {
+    Column {
+        LazyColumn {
+            val list = listOf(
+                MatchesItem(
+                    isFavorite = true,
+                    utcDate = "2022-02-10T19:48:37Z",
+                    homeTeam = HomeTeam(crest = "https://crests.football-data.org/73.svg", shortName = "Abc"),
+                    awayTeam = AwayTeam(crest = "https://crests.football-data.org/73.svg", shortName = "DEF")
+                ) {},
+                MatchesItem(isFavorite = true, utcDate = "2022-02-10T19:48:37Z") {},
+                MatchesItem(isFavorite = false, utcDate = "2022-02-10T19:48:37Z") {},
+            )
+
+            items(items = list) {
+                TeamsItem(it) {
+
+                }
             }
         }
     }

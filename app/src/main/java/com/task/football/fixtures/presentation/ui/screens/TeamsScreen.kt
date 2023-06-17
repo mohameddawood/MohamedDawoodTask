@@ -30,9 +30,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.modifier.modifierLocalConsumer
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.task.football.R
 import com.task.football.fixtures.presentation.TeamViewModel
 import com.task.football.utils.formatDateToCompare
 
@@ -41,8 +43,7 @@ import com.task.football.utils.formatDateToCompare
 fun TeamsScreen(viewModel: TeamViewModel) {
 
     Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
+        modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
     ) {
         var visibleToggle by remember { mutableStateOf(true) }
         var switchOn by remember { mutableStateOf(false) }
@@ -60,15 +61,17 @@ fun TeamsScreen(viewModel: TeamViewModel) {
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Switch(
-                            checked = switchOn,
-                            onCheckedChange = { switchOn_ ->
-                                switchOn = switchOn_
-                                viewModel.filter(switchOn)
-                            }
-                        )
+                        Switch(checked = switchOn, onCheckedChange = { switchOn_ ->
+                            switchOn = switchOn_
+                            viewModel.filter(switchOn)
+                        })
                         Spacer(modifier = Modifier.width(20.dp))
-                        Text(text = if (switchOn) "See all" else "Show favorites")
+                        Text(
+                            text = if (switchOn) stringResource(id = R.string.see_all)
+                            else stringResource(
+                                id = R.string.show_fav
+                            )
+                        )
 
                     }
                 }
