@@ -18,7 +18,7 @@
 -----------------------------------------------------------------------------------------------------------
 
 
-<img src="https://github.com/mohameddawood/MohamedDawoodTask/blob/master/task2Gif.gif" width="100" height="200" />
+<img src="https://github.com/mohameddawood/MohamedDawoodTask/blob/master/task2Gif.gif" width="400" height="1000" />
 
 
 
