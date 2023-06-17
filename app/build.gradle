@@ -13,7 +13,7 @@ android {
     defaultConfig {
         applicationId "com.task.football"
         minSdk 24
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
@@ -25,8 +25,9 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
-            debuggable true
+            minifyEnabled true
+            debuggable false
+            shrinkResources true
             buildConfigField "String", "API_BASE", baseUrl
             buildConfigField "String", "API_KEY", apiKey
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -77,7 +78,6 @@ dependencies { configuration ->
         implementation libs.composeUiToolingPreview
         implementation libs.composeMaterial3
         implementation libs.viewmodelKtx
-        implementation 'com.google.ar:core:1.30.0'
         testImplementation libs.junit
         androidTestImplementation libs.extJunit
         androidTestImplementation libs.espressoCore
