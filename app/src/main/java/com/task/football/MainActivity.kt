@@ -13,15 +13,12 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    val viewModel by viewModels<TeamViewModel>()
-
+    private val viewModel by viewModels<TeamViewModel>()
     @SuppressLint("CoroutineCreationDuringComposition")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContent {
             MohamedDawoodTaskTheme {
-                // A surface container using the 'background' color from the theme
                 TeamsScreen(viewModel)
             }
         }

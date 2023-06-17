@@ -44,15 +44,12 @@ fun TeamsScreen(viewModel: TeamViewModel) {
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        var visible by remember { mutableStateOf(true) }
         var visibleToggle by remember { mutableStateOf(true) }
-        LaunchedEffect(Unit, block = {
-            viewModel.loadItems()
-        })
-        var switchOn by remember {
-            mutableStateOf(false)
-        }
+        var switchOn by remember { mutableStateOf(false) }
+        var visible by remember { mutableStateOf(true) }
         val grouped = viewModel.fixtures.groupBy { it.utcDate.formatDateToCompare() }
+
+        LaunchedEffect(Unit, block = { viewModel.loadItems() })
 
         ShowEmptyScreen(viewModel)
         Column {
@@ -80,27 +77,7 @@ fun TeamsScreen(viewModel: TeamViewModel) {
             LazyColumn(modifier = Modifier.fillMaxHeight()) {
                 grouped.forEach { (date, matchesItems) ->
                     stickyHeader {
-                        Box(
-                            modifier = Modifier
-                                .background(Color.Cyan)
-                                .padding(8.dp)
-                        ) {
-
-                            Text(
-                                date,
-                                style = MaterialTheme.typography.titleLarge,
-                                color = Color(0xff0d3b66),
-                                fontWeight = FontWeight.Bold,
-                                modifier = Modifier
-                                    .padding(
-                                        start = 8.dp,
-                                        end = 16.dp,
-                                        bottom = 8.dp
-                                    )
-                                    .background(Color.Cyan)
-                                    .fillMaxWidth(),
-                            )
-                        }
+                        DateSection(date = date)
                     }
                     items(items = matchesItems) { item ->
                         visible = false
@@ -117,19 +94,5 @@ fun TeamsScreen(viewModel: TeamViewModel) {
             CircularIndeterminateProgressBar(visible)
         }
 
-    }
-}
-
-@Composable
-fun ShowEmptyScreen(viewModel: TeamViewModel) {
-    AnimatedVisibility(visible = viewModel.getEmptyState().value) {
-        Box(
-            contentAlignment = Alignment.Center, modifier = Modifier
-                .fillMaxHeight()
-                .fillMaxWidth()
-                .background(Color.White)
-        ) {
-            Text(text = "No favorites", color = Color.Magenta, fontSize = 20.sp,)
-        }
     }
 }

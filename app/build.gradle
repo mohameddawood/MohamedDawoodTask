@@ -68,46 +68,46 @@ android {
 }
 
 dependencies { configuration ->
-    implementation libs.ktxCore
-    implementation libs.androidLifecycle
-    implementation libs.androidActivityCompose
-    implementation platform(libs.composeBom)
-    implementation libs.composeUi
-    implementation libs.composeGraphic
-    implementation libs.composeUiToolingPreview
-    implementation libs.composeMaterial3
-    implementation libs.viewmodelKtx
-    implementation 'com.google.ar:core:1.30.0'
-    testImplementation libs.junit
-    androidTestImplementation libs.extJunit
-    androidTestImplementation libs.espressoCore
-    androidTestImplementation platform(libs.composeBom)
-    androidTestImplementation libs.junitComposetwo
-    debugImplementation libs.composeUiTooling
-    debugImplementation libs.composeTestManifest
-    implementation libs.retrofitSqure
-    implementation libs.retrofitConverter
-    implementation libs.retrofitAdapter
-    implementation libs.loggingInterceptor
-    implementation libs.timber
-    implementation libs.viewmodelSavedState
-    implementation libs.lifecycleExt
-    annotationProcessor libs.lifecycleCompiler
-    implementation libs.constraintCompose
-    implementation(libs.coilCompose)
-    implementation libs.coilSvg
-    implementation libs.hiltAndroid
-    annotationProcessor libs.hiltCompiler
-    androidTestImplementation libs.hiltTesting
-    kapt libs.hiltCompiler
-    testImplementation libs.hiltTesting
-    testAnnotationProcessor libs.hiltCompiler
-    implementation libs.datastore
-    kaptTest libs.hiltKaptTesting
-    testAnnotationProcessor libs.hiltKaptTesting
-    kaptAndroidTest libs.hiltKaptTesting
-    androidTestAnnotationProcessor libs.hiltKaptTesting
-    androidTestImplementation libs.testRunner
+        implementation libs.ktxCore
+        implementation libs.androidLifecycle
+        implementation libs.androidActivityCompose
+        implementation platform(libs.composeBom)
+        implementation libs.composeUi
+        implementation libs.composeGraphic
+        implementation libs.composeUiToolingPreview
+        implementation libs.composeMaterial3
+        implementation libs.viewmodelKtx
+        implementation 'com.google.ar:core:1.30.0'
+        testImplementation libs.junit
+        androidTestImplementation libs.extJunit
+        androidTestImplementation libs.espressoCore
+        androidTestImplementation platform(libs.composeBom)
+        androidTestImplementation libs.junitComposetwo
+        debugImplementation libs.composeUiTooling
+        debugImplementation libs.composeTestManifest
+        implementation libs.retrofitSqure
+        implementation libs.retrofitConverter
+        implementation libs.retrofitAdapter
+        implementation libs.loggingInterceptor
+        implementation libs.timber
+        implementation libs.viewmodelSavedState
+        implementation libs.lifecycleExt
+        annotationProcessor libs.lifecycleCompiler
+        implementation libs.constraintCompose
+        implementation(libs.coilCompose)
+        implementation libs.coilSvg
+        implementation libs.hiltAndroid
+        annotationProcessor libs.hiltCompiler
+        androidTestImplementation libs.hiltTesting
+        kapt libs.hiltCompiler
+        testImplementation libs.hiltTesting
+        testAnnotationProcessor libs.hiltCompiler
+        implementation libs.datastore
+        kaptTest libs.hiltKaptTesting
+        testAnnotationProcessor libs.hiltKaptTesting
+        kaptAndroidTest libs.hiltKaptTesting
+        androidTestAnnotationProcessor libs.hiltKaptTesting
+        androidTestImplementation libs.testRunner
 
 }
 

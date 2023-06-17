@@ -1,9 +1,11 @@
 package com.task.football.fixtures.presentation.ui.screens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,15 +26,23 @@ fun showDate(){
 @Composable
 fun DateSection(date: String) {
     Box(
-        modifier = Modifier.fillMaxWidth(),
-        contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .background(Color.Cyan)
+            .padding(8.dp)
     ) {
         Text(
-            text = date.formatDateToCompare(),
-            fontSize=18.sp,
-            fontWeight= FontWeight.Bold,
-            color= Color.Magenta,
-            modifier = Modifier.padding(start = 10.dp, top = 10.dp)
+            date,
+            style = MaterialTheme.typography.titleLarge,
+            color = Color(0xff0d3b66),
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier
+                .padding(
+                    start = 8.dp,
+                    end = 16.dp,
+                    bottom = 8.dp
+                )
+                .background(Color.Cyan)
+                .fillMaxWidth(),
         )
     }
 }
