@@ -17,6 +17,8 @@
 * Match Teams,Time,Resluts
 -----------------------------------------------------------------------------------------------------------
 
-![](https://github.com/mohameddawood/MohamedDawoodTask/blob/master/task2Gif.gif)
+
+<img src="https://github.com/mohameddawood/MohamedDawoodTask/blob/master/task2Gif.gif" width="100" height="200" />
+
 
 
